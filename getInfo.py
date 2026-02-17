@@ -1,6 +1,5 @@
 import subprocess
 import sys
-import json
 
 
 def run_command(command):
@@ -31,22 +30,56 @@ def get_connected_devices():
     devices = []
 
     for line in lines:
-        if "device" in line and not "offline" in line:
+        if "\tdevice" in line:
             devices.append(line.split()[0])
 
     return devices
 
 
 def get_property(device_id, prop):
-    return run_command(f"adb -s {device_id} shell getprop {prop}")
+    return run_command(f'adb -s {device_id} shell getprop {prop}')
 
 
 def get_ram(device_id):
-    meminfo = run_command(f"adb -s {device_id} shell cat /proc/meminfo")
+    meminfo = run_command(f'adb -s {device_id} shell cat /proc/meminfo')
     for line in meminfo.split("\n"):
         if "MemTotal" in line:
             return line.split(":")[1].strip()
     return "Unknown"
+
+
+def get_storage(device_id):
+    storage = run_command(
+        f'adb -s {device_id} shell df /data | tail -1'
+    )
+    parts = storage.split()
+    if len(parts) >= 2:
+        return parts[1]
+    return "Unknown"
+
+
+def get_battery(device_id):
+    battery = run_command(
+        f'adb -s {device_id} shell dumpsys battery | grep level'
+    )
+    return battery.replace("level:", "").strip()
+
+
+def get_screen_info(device_id):
+    size = run_command(
+        f'adb -s {device_id} shell wm size'
+    )
+    density = run_command(
+        f'adb -s {device_id} shell wm density'
+    )
+    return size + " | " + density
+
+
+def get_cpu_info(device_id):
+    cpu = run_command(
+        f'adb -s {device_id} shell cat /proc/cpuinfo | grep Hardware'
+    )
+    return cpu if cpu else "Unknown"
 
 
 def collect_specs(device_id):
@@ -56,24 +89,29 @@ def collect_specs(device_id):
         "Manufacturer": get_property(device_id, "ro.product.manufacturer"),
         "Android Version": get_property(device_id, "ro.build.version.release"),
         "SDK Version": get_property(device_id, "ro.build.version.sdk"),
-        "Hardware": get_property(device_id, "ro.hardware"),
-        "Chipset": get_property(device_id, "ro.board.platform"),
+        "Security Patch": get_property(device_id, "ro.build.version.security_patch"),
+        "Build ID": get_property(device_id, "ro.build.display.id"),
+        "CPU Info": get_cpu_info(device_id),
         "CPU ABI": get_property(device_id, "ro.product.cpu.abi"),
+        "RAM": get_ram(device_id),
+        "Internal Storage": get_storage(device_id),
+        "Battery Level (%)": get_battery(device_id),
+        "Screen Info": get_screen_info(device_id),
         "Bootloader": get_property(device_id, "ro.bootloader"),
-        "RAM": get_ram(device_id)
+        "Hardware": get_property(device_id, "ro.hardware")
     }
     return specs
 
 
 def print_specs(device_id, specs):
-    print("\n==============================")
+    print("\n========================================")
     print(f"Device ID: {device_id}")
-    print("==============================")
+    print("========================================")
 
     for key, value in specs.items():
-        print(f"{key:<18}: {value}")
+        print(f"{key:<20}: {value}")
 
-    print("==============================\n")
+    print("========================================\n")
 
 
 def main():
