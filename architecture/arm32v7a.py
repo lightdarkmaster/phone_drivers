@@ -43,3 +43,15 @@ class ARM32V7A:
             "Floating Point Unit Architecture": self.get_floating_point_unit_architecture(),
             "Graphics Processing Unit Architecture": self.get_graphics_processing_unit_architecture()
         }
+
+
+    def get_board_details(self):
+        return {
+            "Instruction Set Architecture": self.get_instruction_set_architecture(),
+            "Execute Unit Architecture": self.get_execute_unit_architecture(),
+            "Memory Management Unit Architecture": self.get_memory_management_unit_architecture(),
+            "Load/Store Unit Architecture": self.get_load_store_unit_architecture(),
+            "Branch Prediction Unit Architecture": self.get_branch_prediction_unit_architecture(),
+            "Floating Point Unit Architecture": self.get_floating_point_unit_architecture(),
+            "Graphics Processing Unit Architecture": self.get_graphics_processing_unit_architecture()
+        }
