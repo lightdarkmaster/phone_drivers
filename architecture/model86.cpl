@@ -1,0 +1,31 @@
+
+
+(defclass automation-program
+  (is-a (program-execution)))
+
+(defmethod execute ((?self automation-program))
+  (let ((commands (slot-value ?self 'commands)))
+
+  (dolist (command commands)
+    (format t "~A~%" command)
+    (execute-command command)))
+
+
+(defmethod execute-command ((?self automation-program) command)
+  (let ((output (slot-value ?self 'output)))
+
+    (format t "~A~%" command)
+    (let ((process (open-process command output t)))
+      (when process
+        (let ((exit-code (wait-for-process process)))
+          (when (zerop exit-code)
+            (format t "Command '~A~' executed successfully.~%" command)
+            (setf output (append output (format nil "~A~%" command)))))
+      (close-process process))))
+
+(defmethod get-output ((?self automation-program))
+  (slot-value ?self 'output))
+
+
+(defmethod set-output ((?self automation-program) output)
+  (setf (slot-value ?self 'output) output))
