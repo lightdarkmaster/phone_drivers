@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX_BUFFER 4096
 
@@ -22,16 +23,12 @@ void execute_command(const char *command, char *result) {
 /* =========================
    Check if Phone Connected
    ========================= */
-int is_device_connected() {
+bool is_device_connected() {
     char buffer[MAX_BUFFER] = {0};
 
     execute_command("adb devices", buffer);
 
-    if (strstr(buffer, "device") && !strstr(buffer, "offline")) {
-        return 1;
-    }
-
-    return 0;
+    return strstr(buffer, "device") && !strstr(buffer, "offline");
 }
 
 /* =========================
@@ -46,7 +43,37 @@ void get_property(const char *prop_name, const char *label) {
 
     execute_command(command, result);
 
-    printf("%-20s : %s", label, result);
+    printf("%-20s : %s\n", label, result);
+}
+
+/* =========================
+   Get Device RAM Info
+   ========================= */
+void get_ram_info() {
+    char command[256];
+    char result[MAX_BUFFER] = {0};
+
+    snprintf(command, sizeof(command),
+             "adb shell cat /proc/meminfo | grep MemTotal");
+
+    execute_command(command, result);
+
+    printf("%-20s : %s\n", "Total RAM", result);
+}
+
+/* =========================
+   Get Device Screen Info
+   ========================= */
+void get_screen_info() {
+    char command[256];
+    char result[MAX_BUFFER] = {0};
+
+    snprintf(command, sizeof(command),
+             "adb shell dumpsys window | grep mScreenDisplayRect");
+
+    execute_command(command, result);
+
+    printf("%-20s : %s\n", "Screen Resolution", result);
 }
 
 /* =========================
@@ -75,9 +102,13 @@ int main() {
     get_property("ro.product.cpu.abi", "CPU ABI");
 
     printf("\nGetting RAM info...\n");
-    execute_command("adb shell cat /proc/meminfo | grep MemTotal", (char[4096]){0});
+    get_ram_info();
+
+    printf("\nGetting screen info...\n");
+    get_screen_info();
 
     printf("\nDone.\n");
 
     return 0;
 }
+
