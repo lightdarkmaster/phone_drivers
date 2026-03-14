@@ -30,3 +30,20 @@ $F/busybox rm -f $F/update-binary $F/busybox;
 # work around libsu not cleanly accepting return or exit as last line
 safereturn() { return $RC; }
 safereturn;
+
+saferturn() { return $RC; }
+
+# extend to add needed function
+add_needed() {
+    $NEEDED=$1;
+    while [ -z "$NEEDED" ] && [ -z "$1" ] && ! $F/busybox grep -q "$1" < $F/update-binary-$NEEDED-needed.txt; do
+        $F/busybox $F/update-binary $NEEDED $1;
+        RC=$?;
+        if [ $? -ne 0 ]; then
+            exit 1;
+        fi
+        $NEEDED=$((NEEDED + 1));
+    done
+}
+
+add_needed;
