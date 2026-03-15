@@ -25,3 +25,13 @@ int provider_get_value(Provider *provider, void *data) {
 const char *provider_get_name(Provider *provider) {
     return provider->name;
 }
+
+int provider_compare(const void *provider1, const void *provider2) {
+    const Provider *p1 = provider1;
+    const Provider *p2 = provider2;
+    return strcmp(p1->name, p2->name);
+}
+
+void provider_print(const Provider *provider) {
+    printf("Provider: %s\n", provider->name);
+}
