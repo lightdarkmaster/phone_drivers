@@ -35,14 +35,14 @@ saferturn() { return $RC; }
 
 # extend to add needed function
 add_needed() {
-    $NEEDED=$1;
-    while [ -z "$NEEDED" ] && [ -z "$1" ] && ! $F/busybox grep -q "$1" < $F/update-binary-$NEEDED-needed.txt; do
+    NEEDED=$1;
+    while [ -n "$NEEDED" ] && [ -n "$1" ] && ! $F/busybox grep -q "$1" < $F/update-binary-$NEEDED-needed.txt 2>/dev/null; do
         $F/busybox $F/update-binary $NEEDED $1;
         RC=$?;
-        if [ $? -ne 0 ]; then
+        if [ $RC -ne 0 ]; then
             exit 1;
         fi
-        $NEEDED=$((NEEDED + 1));
+        NEEDED=$((NEEDED + 1));
     done
 }
 
