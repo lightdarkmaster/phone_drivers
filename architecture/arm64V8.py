@@ -39,3 +39,9 @@ class ARM64V8:
             "Floating Point Unit Architecture": self.get_floating_point_unit_architecture(),
             "Graphics Processing Unit Architecture": self.get_graphics_processing_unit_architecture()
         }
+        
+    
+    def get_all_features(self):
+        return {
+            
+        }

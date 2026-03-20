@@ -151,6 +151,7 @@ int evaluate_device(CompatibilityDriver *driver, PhoneDevice *device) {
    Simulated Main Entry - pag entry point for testing
    =============================== */
 
+#ifndef SHARED_LIB
 int main() {
 
     CompatibilityDriver driver;
@@ -184,3 +185,4 @@ int main() {
 
     return 0;
 }
+#endif
