@@ -1,57 +1,37 @@
 class ARM32V7A:
-    """
-    ARM32V7A architecture complex
-    """
+    """ARM32V7A architecture complex"""
+
+    # Architecture configurations
+    ARCHITECTURES = {
+        "instruction_set": "ARMv7-A",
+        "execute_unit": "ARMv7-A",
+        "memory_management_unit": "ARMv7-A",
+        "load_store_unit": "ARMv7-A",
+        "branch_prediction_unit": "ARMv7-A",
+        "floating_point_unit": "NEON",
+        "graphics_processing_unit": "Mali-G71 MP8",
+    }
 
     def __init__(self):
-        self.instruction_set_architecture = "ARMv7-A"
-        self.execute_unit_architecture = "ARMv7-A"
-        self.memory_management_unit_architecture = "ARMv7-A"
-        self.load_store_unit_architecture = "ARMv7-A"
-        self.branch_prediction_unit_architecture = "ARMv7-A"
-        self.floating_point_unit_architecture = "NEON"
-        self.graphics_processing_unit_architecture = "Mali-G71 MP8"
+        for key, value in self.ARCHITECTURES.items():
+            setattr(self, key, value)
 
-    def get_instruction_set_architecture(self):
-        return self.instruction_set_architecture
-
-    def get_execute_unit_architecture(self):
-        return self.execute_unit_architecture
-
-    def get_memory_management_unit_architecture(self):
-        return self.memory_management_unit_architecture
-
-    def get_load_store_unit_architecture(self):
-        return self.load_store_unit_architecture
-
-    def get_branch_prediction_unit_architecture(self):
-        return self.branch_prediction_unit_architecture
-
-    def get_floating_point_unit_architecture(self):
-        return self.floating_point_unit_architecture
-
-    def get_graphics_processing_unit_architecture(self):
-        return self.graphics_processing_unit_architecture
+    def get_architecture(self, arch_type):
+        """Get specific architecture by type"""
+        return self.ARCHITECTURES.get(arch_type)
 
     def get_all_features(self):
+        """Return all architecture features"""
         return {
-            "Instruction Set Architecture": self.get_instruction_set_architecture(),
-            "Execute Unit Architecture": self.get_execute_unit_architecture(),
-            "Memory Management Unit Architecture": self.get_memory_management_unit_architecture(),
-            "Load/Store Unit Architecture": self.get_load_store_unit_architecture(),
-            "Branch Prediction Unit Architecture": self.get_branch_prediction_unit_architecture(),
-            "Floating Point Unit Architecture": self.get_floating_point_unit_architecture(),
-            "Graphics Processing Unit Architecture": self.get_graphics_processing_unit_architecture()
+            "Instruction Set Architecture": self.instruction_set,
+            "Execute Unit Architecture": self.execute_unit,
+            "Memory Management Unit Architecture": self.memory_management_unit,
+            "Load/Store Unit Architecture": self.load_store_unit,
+            "Branch Prediction Unit Architecture": self.branch_prediction_unit,
+            "Floating Point Unit Architecture": self.floating_point_unit,
+            "Graphics Processing Unit Architecture": self.graphics_processing_unit,
         }
-
 
     def get_board_details(self):
-        return {
-            "Instruction Set Architecture": self.get_instruction_set_architecture(),
-            "Execute Unit Architecture": self.get_execute_unit_architecture(),
-            "Memory Management Unit Architecture": self.get_memory_management_unit_architecture(),
-            "Load/Store Unit Architecture": self.get_load_store_unit_architecture(),
-            "Branch Prediction Unit Architecture": self.get_branch_prediction_unit_architecture(),
-            "Floating Point Unit Architecture": self.get_floating_point_unit_architecture(),
-            "Graphics Processing Unit Architecture": self.get_graphics_processing_unit_architecture()
-        }
+        """Alias for get_all_features"""
+        return self.get_all_features()
