@@ -20,3 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+
+///Got an accident......
