@@ -3,24 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phone Compatibility Driver</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" />
+    <title>Phone Compatibility Driver PRO</title>
+    <!-- Modern Font: Outfit & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
     <script src="main.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Phone Compatibility Driver</h1>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    
+    <header class="glass-nav">
+        <div class="logo">
+            <span class="logo-icon">📱</span>
+            <h1>PhoneSync<span class="highlight">Pro</span></h1>
+        </div>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#compatibility">Check Compatibility</a>
+        </nav>
     </header>
+
     <main>
-        <section>
+        <section class="hero-section">
+            <h2 class="hero-title">Next-Gen Device <span class="gradient-text">Integration</span></h2>
+            <p class="hero-subtitle">Experience seamless connectivity with your smart devices. Unlock powerful insights, diagnostics, and high-speed data transfers.</p>
+            <a href="#compatibility" class="cta-button">Scan Device Now</a>
+        </section>
+
+        <section id="features" class="features-section">
+            <div class="feature-card glass-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Hyper-Fast Sync</h3>
+                <p>Transfer files, contacts, and media at gigabit speeds without any data loss.</p>
+            </div>
+            <div class="feature-card glass-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Bank-grade Security</h3>
+                <p>End-to-end encryption ensures your data never falls into the wrong hands.</p>
+            </div>
+            <div class="feature-card glass-card">
+                <div class="feature-icon">🛠️</div>
+                <h3>Deep Diagnostics</h3>
+                <p>Monitor RAM, battery health, and sensor arrays natively through our driver.</p>
+            </div>
+        </section>
+
+        <section id="compatibility" class="checker-section glass-card">
             <h2>Check Your Phone's Compatibility</h2>
-            <p>Enter your phone's model and we'll check its compatibility with our advanced phone features.</p>
-            <form>
-                <input type="text" id="model" placeholder="Enter your phone's model">
-                <button type="submit">Check Compatibility</button>
+            <p>Enter your phone's model and we'll verify it against our database of 10,000+ supported devices.</p>
+            <form id="compat-form" class="dynamic-form">
+                <div class="input-group">
+                    <input type="text" id="model" placeholder="e.g. iPhone 15 Pro, Pixel 8, Galaxy S24" required autocomplete="off">
+                    <button type="submit" id="check-btn">Verify</button>
+                </div>
+                <div id="status-message" class="hidden"></div>
             </form>
         </section>
     </main>
+
+    <footer>
+        <p>&copy; 2026 PhoneSync Pro Drivers. All rights reserved.</p>
+    </footer>
 </body>
 </html>
